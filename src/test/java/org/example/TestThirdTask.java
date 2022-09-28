@@ -35,9 +35,11 @@ public class TestThirdTask {
     @BeforeAll
     public static void setup() {
         System.setProperty("webdriver.chrome.driver", String.format("%s/%s", System.getProperty("user.dir"), "chromedriver"));
+
         ChromeOptions option = new ChromeOptions();
         option.addArguments("headless");
         option.addArguments("--no-sandbox");
+        option.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver(option);
         driver.get("https://demowebshop.tricentis.com/");
         driver.findElement(By.xpath("//a[text() = 'Log in']")).click();
@@ -57,6 +59,7 @@ public class TestThirdTask {
     public void InitTest() {
         ChromeOptions option = new ChromeOptions();
         option.addArguments("--no-sandbox");
+        option.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver(option);
     }
 
