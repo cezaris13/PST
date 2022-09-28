@@ -30,13 +30,13 @@ public class App {
 //        FirstTask.ShortXpath(driver, parameters);
 
 //        driver.quit()
-//        SecondTaskA(driver);
-        try{
-            SecondTaskB(driver);
-        }
-        catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        SecondTaskA(driver);
+//        try{
+//            SecondTaskB(driver);
+//        }
+//        catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }
 
