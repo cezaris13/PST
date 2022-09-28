@@ -34,7 +34,7 @@ public class TestThirdTask {
 
     @BeforeAll
     public static void setup() {
-        System.setProperty("webdriver.chrome.driver", "/home/pijus/Downloads/chromedriver");
+        System.setProperty("webdriver.chrome.driver", String.format("%s/%s", System.getProperty("user.dir"), "chromedriver"));
         ChromeOptions option = new ChromeOptions();
         option.addArguments("headless");
         driver = new ChromeDriver(option);
