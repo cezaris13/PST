@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ThirdTaskTest {
+public class TestThirdTask {
 
     static WebDriver driver;
     static Params parameters = new Params("Tom", "tomson", "qwerty1234", UUID.randomUUID().toString() + "@gmail.com");
