@@ -40,6 +40,7 @@ public class TestThirdTask {
         option.addArguments("headless");
         option.addArguments("--no-sandbox");
         option.addArguments("--disable-dev-shm-usage");
+        option.addArguments("--disable-gpu");
         option.addArguments("--remote-debugging-port=9222");
         driver = new ChromeDriver(option);
         driver.get("https://demowebshop.tricentis.com/");
@@ -62,6 +63,7 @@ public class TestThirdTask {
         option.addArguments("--no-sandbox");
         option.addArguments("--disable-dev-shm-usage");
         option.addArguments("--remote-debugging-port=9222");
+        option.addArguments("--disable-gpu");
         driver = new ChromeDriver(option);
     }
 
