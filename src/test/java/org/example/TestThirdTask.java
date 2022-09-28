@@ -37,6 +37,7 @@ public class TestThirdTask {
         System.setProperty("webdriver.chrome.driver", String.format("%s/%s", System.getProperty("user.dir"), "chromedriver"));
         ChromeOptions option = new ChromeOptions();
         option.addArguments("headless");
+        option.addArguments("--no-sandbox");
         driver = new ChromeDriver(option);
         driver.get("https://demowebshop.tricentis.com/");
         driver.findElement(By.xpath("//a[text() = 'Log in']")).click();
@@ -54,7 +55,9 @@ public class TestThirdTask {
 
     @BeforeEach
     public void InitTest() {
-        driver = new ChromeDriver();
+        ChromeOptions option = new ChromeOptions();
+        option.addArguments("--no-sandbox");
+        driver = new ChromeDriver(option);
     }
 
     @AfterEach
