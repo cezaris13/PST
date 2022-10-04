@@ -22,7 +22,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -105,9 +104,11 @@ public class TestThirdTask {
 
     private void AddToCartItems(String fileName) throws InterruptedException {
         List<String> items = ReadDataFromFile(fileName);
+        String previousValue;
         for (String item : items) {
+            previousValue = driver.findElement(By.xpath("//a[@href='/cart']/span[@class  = 'cart-qty']")).getText();
             driver.findElement(By.xpath(String.format("//div[@class = 'product-item']/div[@class = 'details']//a[text() = '%s']/parent::*/following-sibling::div[@class = 'add-info']/div[@class = 'buttons']/input", item))).click();
-            TimeUnit.SECONDS.sleep(2);//timing explicit wait?
+            AddToCartFluentWait("//a[@href='/cart']/span[@class  = 'cart-qty']", previousValue);
         }
         driver.findElement(By.xpath("//a[@href = '/cart']/span[text() = 'Shopping cart']")).click();
         driver.findElement(By.xpath("//input[@name = 'termsofservice']")).click();
@@ -115,7 +116,7 @@ public class TestThirdTask {
     }
 
     private void EnterCheckoutDetailsAndContinue() {
-        if(driver.findElements(By.xpath("//label[@for = 'billing-address-select']")).isEmpty()) {
+        if (driver.findElements(By.xpath("//label[@for = 'billing-address-select']")).isEmpty()) {
             driver.findElement(By.xpath("//select[@name = 'BillingNewAddress.CountryId']")).click();
             driver.findElement(By.xpath("//select[@name = 'BillingNewAddress.CountryId']/option[text() = 'Lithuania']")).click();
             driver.findElement(By.xpath("//input[@name = 'BillingNewAddress.City']")).sendKeys(billingData.city);
@@ -126,7 +127,7 @@ public class TestThirdTask {
         driver.findElement(By.xpath("//input[@value = 'Continue' and @title = 'Continue']")).click();
     }
 
-    private void SelectPaymentMethodAndConfirmOrder() throws InterruptedException {
+    private void SelectPaymentMethodAndConfirmOrder() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         FluentWaitMethod("//input[@value = 'Continue' and @class = 'button-1 payment-method-next-step-button']");
         driver.findElement(By.xpath("//input[@value = 'Continue' and @class = 'button-1 payment-method-next-step-button']")).click();
@@ -139,13 +140,24 @@ public class TestThirdTask {
     }
 
     private void FluentWaitMethod(String locator) {
-        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+        Wait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(500));
 
         wait.until(driver1 -> {
             List<WebElement> elements = driver1.findElements(By.xpath(locator));
             return !elements.isEmpty() && elements.size() == 1 && elements.get(0).isDisplayed();
+        });
+    }
+
+    private void AddToCartFluentWait(String locator, String previousValue) {
+        Wait<WebDriver> wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(500));
+
+        wait.until(driver1 -> {
+            WebElement element = driver1.findElement(By.xpath(locator));
+            return !previousValue.equals(element.getText());
         });
     }
 
